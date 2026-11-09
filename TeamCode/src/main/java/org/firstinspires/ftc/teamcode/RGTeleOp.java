@@ -27,12 +27,12 @@ public class RGTeleOp extends OpMode {
     public void loop() {
         double multiplier = 1.0;
         if (slowMode) {
-            multiplier = 0.5;
+            multiplier = 0.4;
         }
         DrivePowers powers = ManualDrive.fieldCentric(
                 -gamepad1.left_stick_y * multiplier,
                 gamepad1.left_stick_x * multiplier,
-                gamepad1.right_stick_x * multiplier,
+                -gamepad1.right_stick_x * multiplier,
                 follower.pose().heading()
         );
 
