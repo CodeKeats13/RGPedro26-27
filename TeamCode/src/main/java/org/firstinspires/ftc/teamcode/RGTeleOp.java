@@ -31,20 +31,20 @@ public class RGTeleOp extends OpMode {
         }
         DrivePowers powers = ManualDrive.fieldCentric(
                 -gamepad1.left_stick_y * multiplier,
-                gamepad1.left_stick_x * multiplier,
+                -gamepad1.left_stick_x * multiplier,
                 -gamepad1.right_stick_x * multiplier,
                 follower.pose().heading()
         );
 
-        follower.manual(powers);
+        ManualDrive.driveOrHold(follower, powers);
         follower.update();
 
         if (gamepad1.right_bumper) {
-            gus.intakeForward();
+            gus.intake();
         }
 
         if (gamepad1.left_bumper) {
-            gus.intakeBackward();
+            gus.outtake();
         }
 
         if (gamepad1.right_trigger_pressed) {
@@ -64,7 +64,7 @@ public class RGTeleOp extends OpMode {
         }
 
         if (gamepad2.dpad_up) {
-            gus.openGates();
+            gus.shoot();
         }
 
         if (gamepad2.dpad_down) {

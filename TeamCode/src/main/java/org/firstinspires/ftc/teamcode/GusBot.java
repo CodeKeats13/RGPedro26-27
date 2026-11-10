@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -14,18 +11,15 @@ public class GusBot {
     // CONSTANTS
     public static double POLLEN_GATE_OPEN_POS = 0;
     public static double NECTAR_GATE_OPEN_POS = 0.3;
-    public static double POLLEN_GATE_CLOSED_POS = 0.35;
+    public static double POLLEN_GATE_CLOSED_POS = 0.285;
     public static double NECTAR_GATE_CLOSED_POS = 0;
     public static double INTAKE_TOP_FORWARD_PWR = 0.7;
     public static double INTAKE_BOTTOM_FORWARD_PWR = 0.5;
     public static double INTAKE_TOP_BACKWARD_PWR = -0.7;
     public static double INTAKE_BOTTOM_BACKWARD_PWR = -0.5;
-    public static double INTAKE_TOP_OFF_PWR = 0;
-    public static double INTAKE_BOTTOM_OFF_PWR = 0;
-    public static double POLLEN_SHOOTER_ON_PWR = 0.6;
-    public static double NECTAR_SHOOTER_ON_PWR = 0.6;
-    public static double POLLEN_SHOOTER_OFF_PWR = 0;
-    public static double NECTAR_SHOOTER_OFF_PWR = 0;
+    public static double POLLEN_SHOOTER_ON_VELOCITY = 1650;
+    public static double NECTAR_SHOOTER_ON_VELOCITY = 1600;
+
 
     private DcMotor intakeTop;
     private DcMotor intakeBottom;
@@ -33,6 +27,7 @@ public class GusBot {
     private DcMotorEx nectar;
     private Servo pollenGate;
     private Servo nectarGate;
+
     public void init(HardwareMap hardwareMap){
 
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -51,15 +46,26 @@ public class GusBot {
         nectar.setDirection(DcMotor.Direction.REVERSE);
         nectarGate.setDirection(Servo.Direction.REVERSE);
 
+        PIDFCoefficients pidfPollen = new PIDFCoefficients(100, 0, 0, 10);
+        pollen.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfPollen);
+
+        PIDFCoefficients pidfNectar = new PIDFCoefficients(100, 0, 0, 10);
+        nectar.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfNectar);
+
+
         intakeTop.setPower(0);
         intakeBottom.setPower(0);
         pollen.setPower(0);
         nectar.setPower(0);
         pollenGate.setPosition(POLLEN_GATE_CLOSED_POS);
         nectarGate.setPosition(NECTAR_GATE_CLOSED_POS);
+        pollen.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        nectar.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        pollen.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        nectar.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public void openGates() {
+    public void shoot() {
         pollenGate.setPosition(POLLEN_GATE_OPEN_POS);
         nectarGate.setPosition(NECTAR_GATE_OPEN_POS);
     }
@@ -69,28 +75,30 @@ public class GusBot {
         nectarGate.setPosition(NECTAR_GATE_CLOSED_POS);
     }
 
-    public void intakeForward() {
+    public void intake() {
         intakeTop.setPower(INTAKE_TOP_FORWARD_PWR);
         intakeBottom.setPower(INTAKE_BOTTOM_FORWARD_PWR);
     }
 
-    public void intakeBackward() {
+    public void outtake() {
         intakeTop.setPower(INTAKE_TOP_BACKWARD_PWR);
         intakeBottom.setPower(INTAKE_BOTTOM_BACKWARD_PWR);
     }
 
     public void intakeOff() {
-        intakeTop.setPower(INTAKE_TOP_OFF_PWR);
-        intakeBottom.setPower(INTAKE_BOTTOM_OFF_PWR);
+        intakeTop.setPower(0);
+        intakeBottom.setPower(0);
     }
 
     public void shootersOn() {
-        pollen.setPower(POLLEN_SHOOTER_ON_PWR);
-        nectar.setPower(NECTAR_SHOOTER_ON_PWR);
+        pollen.setVelocity(POLLEN_SHOOTER_ON_VELOCITY);
+        nectar.setVelocity(NECTAR_SHOOTER_ON_VELOCITY);
     }
 
     public void shootersOff() {
-        pollen.setPower(POLLEN_SHOOTER_OFF_PWR);
-        nectar.setPower(NECTAR_SHOOTER_OFF_PWR);
+        pollen.setVelocity(0);
+        nectar.setVelocity(0);
     }
+
+
 }
