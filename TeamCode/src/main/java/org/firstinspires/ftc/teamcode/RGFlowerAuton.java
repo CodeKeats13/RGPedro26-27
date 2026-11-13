@@ -24,11 +24,11 @@ public class RGFlowerAuton extends OpMode {
     private GusBot gus;
     private final PoseFactory p = PoseFactory.degrees();
 
-    private final Pose startPose = p.of(61.5, 135, 90);
-    private final Pose flowerPose = p.of(53, 135, 90);
-    private final Pose flowerControlPose = p.of(50, 90, 0);
+    private final Pose startPose = p.of(40.5, 134, 110);
+    private final Pose flowerPose = p.of(56, 131.5, 90);
+    private final Pose flowerControlPose = p.of(50, 100, 0);
     private final Pose parkControlPose = p.of(50, 103, 0);
-    private final Pose parkPose = p.of(10, 93, 0);
+    private final Pose parkPose = p.of(11, 124, 0);
     private Path Flower() {
         return curve(startPose, flowerControlPose, flowerPose).linear(startPose, flowerPose);
     }
@@ -39,8 +39,9 @@ public class RGFlowerAuton extends OpMode {
 
     private Command autoRoutine() {
         return sequential(
+                waitMs(10000),
                 instant(() -> {gus.shootersOn();}),
-                waitMs(12000),
+                waitMs(2000),
                 instant(() -> {gus.shoot();}),
                 waitMs(2000),
                 instant(() -> {gus.shootersOff();}),
@@ -81,6 +82,10 @@ public class RGFlowerAuton extends OpMode {
         telemetry.addData("Y", follower.pose().y());
         telemetry.addData("Heading", Math.toDegrees(follower.pose().heading()));
         telemetry.addData("Follower Mode", follower.mode());
+        telemetry.addData("pollenVelocity", gus.getPollenVelocity());
+        telemetry.addData("nectarVelocity", gus.getNectarVelocity());
+        telemetry.addData("Pollen", gus.getPollenVelocity() > 1600 ? "READY" : "NOT_READY");
+        telemetry.addData("Nectar", gus.getNectarVelocity() > 1600 ? "READY" : "NOT_READY");
         telemetry.update();
     }
 

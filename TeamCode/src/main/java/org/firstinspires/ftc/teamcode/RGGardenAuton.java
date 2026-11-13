@@ -79,6 +79,10 @@ public class RGGardenAuton extends OpMode {
         telemetry.addData("Y", follower.pose().y());
         telemetry.addData("Heading", Math.toDegrees(follower.pose().heading()));
         telemetry.addData("Follower Mode", follower.mode());
+        telemetry.addData("pollenVelocity", gus.getPollenVelocity());
+        telemetry.addData("nectarVelocity", gus.getNectarVelocity());
+        telemetry.addData("Pollen", gus.getPollenVelocity() > 1600 ? "READY" : "NOT_READY");
+        telemetry.addData("Nectar", gus.getNectarVelocity() > 1600 ? "READY" : "NOT_READY");
         telemetry.update();
     }
 
