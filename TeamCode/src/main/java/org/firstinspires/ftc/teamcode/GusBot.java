@@ -16,10 +16,8 @@ public class GusBot {
     public static double NECTAR_GATE_OPEN_POS = 0.3;
     public static double POLLEN_GATE_CLOSED_POS = 0.285;
     public static double NECTAR_GATE_CLOSED_POS = 0;
-    public static double INTAKE_TOP_FORWARD_PWR = 0.7;
-    public static double INTAKE_BOTTOM_FORWARD_PWR = 0.5;
-    public static double INTAKE_TOP_BACKWARD_PWR = -0.7;
-    public static double INTAKE_BOTTOM_BACKWARD_PWR = -0.5;
+    public static double INTAKE_FORWARD_PWR = 0.7;
+    public static double INTAKE_BACKWARD_PWR = -0.7;
     public static double POLLEN_SHOOTER_ON_VELOCITY = 1625;
     public static double NECTAR_SHOOTER_ON_VELOCITY = 1625;
     public static double POLLEN_P = 200;
@@ -36,13 +34,13 @@ public class GusBot {
     private Servo nectarGate;
 
 
-    public void init(HardwareMap hardwareMap){
+    public void init(HardwareMap hardwareMap) {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
 
         intakeTop = hardwareMap.get(DcMotor.class, "IntakeT");
-        intakeBottom = hardwareMap.get(DcMotor.class,"IntakeB");
+        intakeBottom = hardwareMap.get(DcMotor.class, "IntakeB");
         //Hehe --> (Vineeth made the change) Respect to Digital Dinos
         pollenGate = hardwareMap.get(Servo.class, "PollenGate");
         nectarGate = hardwareMap.get(Servo.class, "NectarGate");
@@ -100,13 +98,13 @@ public class GusBot {
     }
 
     public void intake() {
-        intakeTop.setPower(INTAKE_TOP_FORWARD_PWR);
-        intakeBottom.setPower(INTAKE_BOTTOM_FORWARD_PWR);
+        intakeTop.setPower(INTAKE_FORWARD_PWR);
+        intakeBottom.setPower(INTAKE_FORWARD_PWR);
     }
 
     public void outtake() {
-        intakeTop.setPower(INTAKE_TOP_BACKWARD_PWR);
-        intakeBottom.setPower(INTAKE_BOTTOM_BACKWARD_PWR);
+        intakeTop.setPower(INTAKE_BACKWARD_PWR);
+        intakeBottom.setPower(INTAKE_BACKWARD_PWR);
     }
 
     public void intakeOff() {
@@ -131,10 +129,5 @@ public class GusBot {
     public double getNectarVelocity() {
         return nectar.getVelocity();
     }
-
-    public double getPollenSetVelocity() {
-    return POLLEN_SHOOTER_ON_VELOCITY;
-    }
-
 
 }

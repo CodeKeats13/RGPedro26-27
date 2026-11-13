@@ -34,6 +34,12 @@ public class RGTeleOp extends OpMode {
     }
 
     @Override
+    public void start(){
+        follower.setPose(OpModeStorage.autonomousEndPose);
+        follower.update();
+    }
+
+    @Override
     public void loop() {
         double multiplier = 1.0;
         if (slowMode) {
@@ -64,11 +70,11 @@ public class RGTeleOp extends OpMode {
             gus.intake();
         }
 
-        if (gamepad1.leftBumperWasPressed()) {
+        if (gamepad1.rightTriggerWasPressed()) {
             gus.outtake();
         }
 
-        if (gamepad1.rightTriggerWasPressed()) {
+        if (gamepad1.leftBumperWasPressed()) {
             gus.intakeOff();
         }
 
@@ -113,12 +119,15 @@ public class RGTeleOp extends OpMode {
         }
         dashboardTelemetry.addData("pollenVelocity", gus.getPollenVelocity());
         dashboardTelemetry.addData("nectarVelocity", gus.getNectarVelocity());
+        dashboardTelemetry.addData("Pollen", gus.getPollenVelocity() > 1600 ? "READY" : "NOT_READY");
+        dashboardTelemetry.addData("Nectar", gus.getNectarVelocity() > 1600 ? "READY" : "NOT_READY");
+        dashboardTelemetry.update();
+
         telemetry.addData("pollenVelocity", gus.getPollenVelocity());
         telemetry.addData("nectarVelocity", gus.getNectarVelocity());
-        telemetry.addData("pollenSetVelocity", gus.getPollenSetVelocity());
         telemetry.addData("Pollen", gus.getPollenVelocity() > 1600 ? "READY" : "NOT_READY");
         telemetry.addData("Nectar", gus.getNectarVelocity() > 1600 ? "READY" : "NOT_READY");
         telemetry.update();
-        dashboardTelemetry.update();
+
     }
 }
