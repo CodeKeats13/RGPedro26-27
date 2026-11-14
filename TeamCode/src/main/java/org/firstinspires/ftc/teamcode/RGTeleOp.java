@@ -46,8 +46,8 @@ public class RGTeleOp extends OpMode {
             multiplier = 0.4;
         }
         DrivePowers powers = ManualDrive.fieldCentric(
-                gamepad1.left_stick_y * multiplier,
-                gamepad1.left_stick_x * multiplier,
+                -gamepad1.left_stick_y * multiplier,
+                -gamepad1.left_stick_x * multiplier,
                 -gamepad1.right_stick_x * multiplier,
                 follower.pose().heading()
         );
@@ -84,6 +84,11 @@ public class RGTeleOp extends OpMode {
 
         if (gamepad1.rightStickButtonWasPressed()) {
             holdMode = !holdMode;
+        }
+
+        if (gamepad1.backWasPressed()) {
+            //Reset Heading to 0
+            follower.setPose(new Pose(follower.pose().x(), follower.pose().y(), 0));
         }
 
         if (gamepad2.aWasPressed()) {

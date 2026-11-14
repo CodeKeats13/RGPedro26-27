@@ -16,9 +16,9 @@ public class GusBot {
     public static double NECTAR_GATE_OPEN_POS = 0.3;
     public static double POLLEN_GATE_CLOSED_POS = 0.285;
     public static double NECTAR_GATE_CLOSED_POS = 0;
-    public static double INTAKE_FORWARD_PWR = 0.7;
-    public static double INTAKE_BACKWARD_PWR = -0.7;
-    public static double POLLEN_SHOOTER_ON_VELOCITY = 1625;
+    public static double INTAKE_FORWARD_PWR = 0.75;
+    public static double INTAKE_BACKWARD_PWR = -0.75;
+    public static double POLLEN_SHOOTER_ON_VELOCITY = 1600;
     public static double NECTAR_SHOOTER_ON_VELOCITY = 1625;
     public static double POLLEN_P = 200;
     public static double POLLEN_F = 15;

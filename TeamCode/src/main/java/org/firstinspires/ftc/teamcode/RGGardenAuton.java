@@ -13,6 +13,7 @@ import com.pedropathing.ivy.Scheduler;
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.commands.Commands.instant;
 import static com.pedropathing.ivy.commands.Commands.waitMs;
+import static com.pedropathing.ivy.groups.Groups.race;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
@@ -44,7 +45,8 @@ public class RGGardenAuton extends OpMode {
                 instant(() -> {gus.shootersOff();}),
                 instant(() -> {gus.closeGates();}),
                 instant(() -> {gus.intake();}),
-                follow(follower, Flower()),
+                race(follow(follower, Flower()),
+                     waitMs(4000)),
                 waitMs(4000),
                 instant(() -> {gus.intakeOff();}),
                 follow(follower, Park())
