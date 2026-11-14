@@ -92,6 +92,7 @@ public class RGTeleOp extends OpMode {
 
         if (gamepad2.bWasPressed()) {
             gus.shootersOff();
+            gus.closeGates();
         }
 
         if (gamepad2.dpadUpWasPressed()) {
