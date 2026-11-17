@@ -41,21 +41,29 @@ public class RGFlowerAuton2 extends OpMode {
         return curve(flowerPose, parkControlPose, parkPose).linear(flowerPose, parkPose);
     }
 
+    Command shoot = sequential(
+            instant(() -> {gus.shoot();}),
+            waitMs(2000),
+            instant(() -> {gus.shootersOff();}),
+            instant(() -> {gus.closeGates();})
+    );
+
+    Command shootPrep = sequential(
+            instant(() -> {gus.shootersOn();}),
+            instant(() -> {gus.intakeOff();})
+    );
+
 
     private Command autoRoutine() {
         return sequential(
-                instant(() -> {gus.shootersOn();}),
+                shootPrep,
                 waitMs(10000),
-                instant(() -> {gus.shoot();}),
-                waitMs(2000),
-                instant(() -> {gus.shootersOff();}),
-                instant(() -> {gus.closeGates();}),
+                shoot,
                 instant(() -> {gus.intake();}),
                 race(follow(follower, Flower()),
                      waitMs(3000)),
                 waitMs(3000),
-                instant(() -> {gus.intakeOff();}),
-                instant(() -> {gus.shootersOn();}),
+                shootPrep,
                 race(follow(follower, FlowerShoot()),
                         waitMs(3000)),
                 instant(() -> {gus.shoot();}),

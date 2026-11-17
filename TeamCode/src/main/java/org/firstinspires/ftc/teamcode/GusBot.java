@@ -23,7 +23,7 @@ public class GusBot {
     public static double POLLEN_P = 200;
     public static double POLLEN_F = 15;
     public static double NECTAR_P = 200;
-    public static double NECTAR_F = 13;
+    public static double NECTAR_F = 12;
 
 
     private DcMotor intakeTop;

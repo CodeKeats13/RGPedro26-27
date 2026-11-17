@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 @Autonomous
-public class RGGarden2Auton extends OpMode {
+public class RGGardenAuton2 extends OpMode {
     private Follower follower;
     private GusBot gus;
     private final PoseFactory p = PoseFactory.degrees();
@@ -48,38 +48,38 @@ public class RGGarden2Auton extends OpMode {
         return curve(flowerPose, parkControlPose, parkPose).linear(flowerPose, parkPose);
     }
 
+    Command shoot = sequential(
+            instant(() -> {gus.shoot();}),
+            waitMs(2000),
+            instant(() -> {gus.shootersOff();}),
+            instant(() -> {gus.closeGates();})
+    );
+
+    Command shootPrep = sequential(
+            instant(() -> {gus.shootersOn();}),
+            instant(() -> {gus.intakeOff();})
+    );
+
 
     private Command autoRoutine() {
         return sequential(
-                instant(() -> {gus.shootersOn();}),
+                shootPrep,
                 waitMs(2000),
-                instant(() -> {gus.shoot();}),
-                waitMs(2000),
-                instant(() -> {gus.shootersOff();}),
-                instant(() -> {gus.closeGates();}),
+                shoot,
                 instant(() -> {gus.intake();}),
                 race(follow(follower, shootGarden()),
                      waitMs(3000)),
                 waitMs(2000),
-                instant(() -> {gus.intakeOff();}),
-                instant(() -> {gus.shootersOn();}),
+                shootPrep,
                 race(follow(follower, gardenShoot()),
                         waitMs(3000)),
-                instant(() -> {gus.shoot();}),
-                waitMs(2000),
-                instant(() -> {gus.shootersOff();}),
-                instant(() -> {gus.closeGates();}),
+                shoot,
                 instant(() -> {gus.intake();}),
                 race(follow(follower, Flower()),
                         waitMs(3000)),
                 waitMs(3000),
                 instant(() -> {gus.intakeOff();}),
-                race(follow(follower, Park()),
-                        waitMs(3000))
-
-
-
-
+                follow(follower, Park())
         );
     }
 

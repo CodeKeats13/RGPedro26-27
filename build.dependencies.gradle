@@ -16,10 +16,17 @@ dependencies {
     implementation 'org.firstinspires.ftc:Vision:12.0.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
+    //Pedro
     implementation 'com.pedropathing:revhub:3.0.2'
     implementation 'com.pedropathing:tuning:1.0.3'
 
+    //FtcDash
     implementation 'com.acmerobotics.dashboard:dashboard:0.6.0'
 
+    //Ivy
     implementation 'com.pedropathing.ivy:pedro:1.1.1'
+
+    //SovlersLib
+    implementation "org.solverslib:core:0.3.6"
+    implementation "org.solverslib:pedroPathing:0.3.6"
 }

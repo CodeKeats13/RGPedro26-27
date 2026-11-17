@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.pedropathing.controllers.PIDController;
 import com.pedropathing.drivetrain.DrivePowers;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.ManualDrive;
@@ -21,6 +22,7 @@ public class RGTeleOp extends OpMode {
     private GusBot gus;
     private boolean slowMode;
     private boolean holdMode;
+    private final PIDController headingController = new PIDController(2.0, 0.0, 0.1);
 
     @Override
     public void init() {
@@ -45,10 +47,15 @@ public class RGTeleOp extends OpMode {
         if (slowMode) {
             multiplier = 0.4;
         }
-        DrivePowers powers = ManualDrive.fieldCentric(
+        double targetHeading = Math.atan2(-gamepad1.right_stick_x, -gamepad1.right_stick_y);
+        DrivePowers powers = new DrivePowers(
                 -gamepad1.left_stick_y * multiplier,
                 -gamepad1.left_stick_x * multiplier,
-                -gamepad1.right_stick_x * multiplier,
+                -gamepad1.right_stick_x * multiplier);
+
+        powers = ManualDrive.headingLock(follower, headingController, powers, targetHeading);
+        powers = ManualDrive.fieldCentric(
+                powers,
                 follower.pose().heading()
         );
 
@@ -123,16 +130,17 @@ public class RGTeleOp extends OpMode {
         if (gamepad2.rightTriggerWasPressed()) {
             gus.closeNectar();
         }
-        dashboardTelemetry.addData("pollenVelocity", gus.getPollenVelocity());
-        dashboardTelemetry.addData("nectarVelocity", gus.getNectarVelocity());
+        dashboardTelemetry.addData("Pollen Velocity", gus.getPollenVelocity());
+        dashboardTelemetry.addData("NectarVelocity", gus.getNectarVelocity());
         dashboardTelemetry.addData("Pollen", gus.getPollenVelocity() > 1600 ? "READY" : "NOT_READY");
         dashboardTelemetry.addData("Nectar", gus.getNectarVelocity() > 1600 ? "READY" : "NOT_READY");
         dashboardTelemetry.update();
 
-        telemetry.addData("pollenVelocity", gus.getPollenVelocity());
-        telemetry.addData("nectarVelocity", gus.getNectarVelocity());
+        telemetry.addData("Pollen Velocity", gus.getPollenVelocity());
+        telemetry.addData("Nectar Velocity", gus.getNectarVelocity());
         telemetry.addData("Pollen", gus.getPollenVelocity() > 1600 ? "READY" : "NOT_READY");
         telemetry.addData("Nectar", gus.getNectarVelocity() > 1600 ? "READY" : "NOT_READY");
+        telemetry.addData("Target Heading", targetHeading);
         telemetry.update();
 
     }
