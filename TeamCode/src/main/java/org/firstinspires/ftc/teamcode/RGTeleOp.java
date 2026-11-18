@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Point;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.pedropathing.controllers.PIDController;
 import com.pedropathing.drivetrain.DrivePowers;
@@ -8,6 +10,7 @@ import com.pedropathing.follower.ManualDrive;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.seattlesolvers.solverslib.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
@@ -17,6 +20,8 @@ public class RGTeleOp extends OpMode {
     FtcDashboard dashboard = FtcDashboard.getInstance();
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
+    //CONSTANTS
+    private static Pose2d NORTH_HIVE_POS = new Pose2d(72,72,0);
 
     private Follower follower;
     private GusBot gus;
@@ -47,7 +52,12 @@ public class RGTeleOp extends OpMode {
         if (slowMode) {
             multiplier = 0.4;
         }
-        double targetHeading = Math.atan2(-gamepad1.right_stick_x, -gamepad1.right_stick_y);
+        double targetHeading = Math.atan2(NORTH_HIVE_POS.getY() - follower.pose().y(),
+                                          NORTH_HIVE_POS.getX() - follower.pose().x()) + Math.PI;
+        if (Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y) > 0.4) {
+            targetHeading = Math.atan2(-gamepad1.right_stick_x, -gamepad1.right_stick_y);
+        }
+
         DrivePowers powers = new DrivePowers(
                 -gamepad1.left_stick_y * multiplier,
                 -gamepad1.left_stick_x * multiplier,
