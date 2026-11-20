@@ -19,11 +19,11 @@ public class GusBot {
     public static double INTAKE_FORWARD_PWR = 0.75;
     public static double INTAKE_BACKWARD_PWR = -0.75;
     public static double POLLEN_SHOOTER_ON_VELOCITY = 1600;
-    public static double NECTAR_SHOOTER_ON_VELOCITY = 1625;
+    public static double NECTAR_SHOOTER_ON_VELOCITY = 1575;
     public static double POLLEN_P = 200;
-    public static double POLLEN_F = 15;
+    public static double POLLEN_F = 13;
     public static double NECTAR_P = 200;
-    public static double NECTAR_F = 12;
+    public static double NECTAR_F = 10;
 
 
     private DcMotor intakeTop;

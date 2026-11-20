@@ -32,19 +32,19 @@ public class RGGardenAuton2 extends OpMode {
     private final Pose flowerControlPose = p.of(25, 56, 0);
     private final Pose parkControlPose = p.of(46, 65, 0);
     private final Pose parkPose = p.of(10, 93, 0);
-    private Path shootGarden() {
+    private Path shootToGarden() {
         return curve(startPose, gardenControlPose, gardenPose).linear(startPose, gardenPose);
     }
 
-    private Path gardenShoot() {
+    private Path gardenToShoot() {
         return curve(gardenPose, gardenControlPose, startPose).linear(gardenPose, startPose);
     }
 
-    private Path Flower() {
+    private Path shootToFlower() {
         return curve(startPose, flowerControlPose, flowerPose).linear(startPose, flowerPose);
     }
 
-    private Path Park() {
+    private Path flowerToPark() {
         return curve(flowerPose, parkControlPose, parkPose).linear(flowerPose, parkPose);
     }
 
@@ -67,19 +67,19 @@ public class RGGardenAuton2 extends OpMode {
                 waitMs(2000),
                 shoot,
                 instant(() -> {gus.intake();}),
-                race(follow(follower, shootGarden()),
+                race(follow(follower, shootToGarden()),
                      waitMs(3000)),
                 waitMs(2000),
                 shootPrep,
-                race(follow(follower, gardenShoot()),
+                race(follow(follower, gardenToShoot()),
                         waitMs(3000)),
                 shoot,
                 instant(() -> {gus.intake();}),
-                race(follow(follower, Flower()),
+                race(follow(follower, shootToFlower()),
                         waitMs(3000)),
                 waitMs(3000),
                 instant(() -> {gus.intakeOff();}),
-                follow(follower, Park())
+                follow(follower, flowerToPark())
         );
     }
 

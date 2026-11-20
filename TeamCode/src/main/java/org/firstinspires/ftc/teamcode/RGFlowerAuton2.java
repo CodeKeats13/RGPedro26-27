@@ -25,20 +25,17 @@ public class RGFlowerAuton2 extends OpMode {
     private GusBot gus;
     private final PoseFactory p = PoseFactory.degrees();
 
-    private final Pose startPose = p.of(61.5, 135, 90);
-    private final Pose flowerPose = p.of(56, 131.5, 90);
-    private final Pose flowerControlPose = p.of(59, 100, 0);
-    private final Pose parkControlPose = p.of(50, 97, 0);
+    private final Pose startPose = p.of(61, 135, 90);
+    private final Pose flowerShootPose = p.of(53, 131.5, 91);
+    private final Pose flowerShootControlPose = p.of(59, 115, 0);
+    private final Pose parkControlPose = p.of(60, 97, 0);
     private final Pose parkPose = p.of(11, 124, 0);
     private Path Flower() {
-        return curve(startPose, flowerControlPose, flowerPose).linear(startPose, flowerPose);
+        return curve(startPose, flowerShootControlPose, flowerShootPose).linear(startPose, flowerShootPose);
     }
 
-    private Path FlowerShoot() {
-        return curve(flowerPose, flowerControlPose, startPose).linear(flowerPose, startPose);
-    }
     private Path Park() {
-        return curve(flowerPose, parkControlPose, parkPose).linear(flowerPose, parkPose);
+        return curve(flowerShootPose, parkControlPose, parkPose).linear(flowerShootPose, parkPose);
     }
 
     Command shoot = sequential(
@@ -57,15 +54,13 @@ public class RGFlowerAuton2 extends OpMode {
     private Command autoRoutine() {
         return sequential(
                 shootPrep,
-                waitMs(10000),
+                race(follow(follower, Flower()),
+                        waitMs(2000)),
+                waitMs(8000),
                 shoot,
                 instant(() -> {gus.intake();}),
-                race(follow(follower, Flower()),
-                     waitMs(3000)),
                 waitMs(3000),
                 shootPrep,
-                race(follow(follower, FlowerShoot()),
-                        waitMs(3000)),
                 instant(() -> {gus.shoot();}),
                 waitMs(2000),
                 follow(follower, Park())

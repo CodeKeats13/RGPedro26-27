@@ -17,11 +17,11 @@ public class ShooterTunerTest extends OpMode {
 
 
     public static double POLLEN_SHOOTER_ON_VELOCITY = 1600;
-    public static double NECTAR_SHOOTER_ON_VELOCITY = 1625;
+    public static double NECTAR_SHOOTER_ON_VELOCITY = 1575;
     public static double POLLEN_P = 200;
-    public static double POLLEN_F = 15;
+    public static double POLLEN_F = 13;
     public static double NECTAR_P = 200;
-    public static double NECTAR_F = 12;
+    public static double NECTAR_F = 15;
 
 
     double[] stepSizes = {10.0, 1.0, 0.1};
@@ -34,8 +34,6 @@ public class ShooterTunerTest extends OpMode {
         pollen = hardwareMap.get(DcMotorEx.class, "Pollen");
         nectar = hardwareMap.get(DcMotorEx.class, "Nectar");
         nectar.setDirection(DcMotor.Direction.REVERSE);
-        pollen.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        nectar.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         pollen.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         nectar.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -91,6 +89,17 @@ public class ShooterTunerTest extends OpMode {
             gus.shootersOn();
         }
 
+        if (gamepad1.rightTriggerWasPressed()) {
+            gus.openPollen();
+            gus.openNectar();
+        }
+
+        if (gamepad1.leftTriggerWasPressed()) {
+            gus.closeGates();
+        }
+
+
+
 
         if (gamepad2.aWasPressed()) {
             NECTAR_SHOOTER_ON_VELOCITY -= stepSizes[stepIndex];
@@ -128,9 +137,20 @@ public class ShooterTunerTest extends OpMode {
             gus.shootersOn();
         }
 
+        if (gamepad2.rightTriggerWasPressed()) {
+            gus.openPollen();
+            gus.openNectar();
+        }
+
+        if (gamepad2.leftTriggerWasPressed()) {
+            gus.closeGates();
+        }
+
 
         telemetry.addData("Pollen Target Velocity", POLLEN_SHOOTER_ON_VELOCITY);
         telemetry.addData("Nectar Target Velocity", NECTAR_SHOOTER_ON_VELOCITY);
+        telemetry.addData("Pollen Velocity", gus.getPollenVelocity());
+        telemetry.addData("Nectar Velocity", gus.getNectarVelocity());
         telemetry.addData("Pollen P", POLLEN_P);
         telemetry.addData("Pollen F", POLLEN_F);
         telemetry.addData("Nectar P", NECTAR_P);
