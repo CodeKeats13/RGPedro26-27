@@ -27,7 +27,9 @@ public class RGTeleOp extends OpMode {
     private GusBot gus;
     private boolean slowMode;
     private boolean holdMode;
+    private boolean autoAim;
     private final PIDController headingController = new PIDController(2.0, 0.0, 0.1);
+//    private HiveTargeting hiveTargeting;
 
     @Override
     public void init() {
@@ -36,6 +38,7 @@ public class RGTeleOp extends OpMode {
         gus.init(hardwareMap);
         slowMode = false;
         holdMode = true;
+        autoAim = false;
         telemetry.addLine("Init Complete. Good Luck Drivers!!");
         telemetry.update();
     }
@@ -63,7 +66,10 @@ public class RGTeleOp extends OpMode {
                 -gamepad1.left_stick_x * multiplier,
                 -gamepad1.right_stick_x * multiplier);
 
-        powers = ManualDrive.headingLock(follower, headingController, powers, targetHeading);
+        if (autoAim) {
+            powers = ManualDrive.headingLock(follower, headingController, powers, targetHeading);
+        }
+
         powers = ManualDrive.fieldCentric(
                 powers,
                 follower.pose().heading()
@@ -115,6 +121,10 @@ public class RGTeleOp extends OpMode {
         if (gamepad2.bWasPressed()) {
             gus.shootersOff();
             gus.closeGates();
+        }
+
+        if (gamepad2.yWasPressed()) {
+            autoAim = !autoAim;
         }
 
         if (gamepad2.dpadUpWasPressed()) {
