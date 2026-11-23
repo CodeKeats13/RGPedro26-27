@@ -27,6 +27,7 @@ public class RGTeleOp extends OpMode {
     private boolean autoAim;
     private final PIDController headingController = new PIDController(2.0, 0.0, 0.1);
     private HiveTargeting hiveTargeting;
+    private double targetHeading;
 
     @Override
     public void init() {
@@ -62,14 +63,15 @@ public class RGTeleOp extends OpMode {
                 -gamepad1.left_stick_x * multiplier,
                 -gamepad1.right_stick_x * multiplier);
 
-        double targetHeading = hiveTargeting.calculateAngleToClosestTarget(robotPose) + Math.PI;
 
         if (autoAim) {
+            targetHeading = hiveTargeting.calculateAngleToClosestTarget(robotPose) + Math.PI;
+
             if (Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y) > 0.4) {
                 targetHeading = Math.atan2(-gamepad1.right_stick_x, -gamepad1.right_stick_y);
-
-                powers = ManualDrive.headingLock(follower, headingController, powers, targetHeading);
             }
+            powers = ManualDrive.headingLock(follower, headingController, powers, targetHeading);
+
         }
 
         powers = ManualDrive.fieldCentric(

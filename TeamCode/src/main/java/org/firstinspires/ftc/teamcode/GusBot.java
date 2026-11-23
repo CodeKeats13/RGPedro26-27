@@ -34,6 +34,7 @@ public class GusBot {
     private Servo nectarGate;
 
 
+
     public void init(HardwareMap hardwareMap) {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -51,6 +52,7 @@ public class GusBot {
         intakeBottom.setDirection(DcMotor.Direction.REVERSE);
         nectar.setDirection(DcMotor.Direction.REVERSE);
         nectarGate.setDirection(Servo.Direction.REVERSE);
+
 
         PIDFCoefficients pidfPollen = new PIDFCoefficients(POLLEN_P, 0, 0, POLLEN_F);
         pollen.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfPollen);
