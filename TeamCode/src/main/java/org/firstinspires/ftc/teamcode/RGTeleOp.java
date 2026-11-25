@@ -115,6 +115,10 @@ public class RGTeleOp extends OpMode {
             holdMode = !holdMode;
         }
 
+        if (gamepad1.aWasPressed()) {
+            autoAim = !autoAim;
+        }
+
         if (gamepad1.backWasPressed()) {
             //Reset Heading to 0
             follower.setPose(new Pose(follower.pose().x(), follower.pose().y(), 0));
@@ -131,11 +135,6 @@ public class RGTeleOp extends OpMode {
         if (gamepad2.bWasPressed()) {
             gus.shootersOff();
             gus.closeGates();
-            autoAim = !autoAim;
-        }
-
-        //Boolean Functions
-        if (gamepad2.yWasPressed()) {
             autoAim = !autoAim;
         }
 
