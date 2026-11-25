@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -32,6 +33,7 @@ public class GusBot {
     private DcMotorEx nectar;
     private Servo pollenGate;
     private Servo nectarGate;
+    private CRServo blocker;
 
 
 
@@ -47,6 +49,7 @@ public class GusBot {
         nectarGate = hardwareMap.get(Servo.class, "NectarGate");
         pollen = hardwareMap.get(DcMotorEx.class, "Pollen");
         nectar = hardwareMap.get(DcMotorEx.class, "Nectar");
+        blocker = hardwareMap.get(CRServo.class, "Blocker");
 
         intakeTop.setDirection(DcMotor.Direction.REVERSE);
         intakeBottom.setDirection(DcMotor.Direction.REVERSE);

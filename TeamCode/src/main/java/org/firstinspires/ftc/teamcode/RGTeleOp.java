@@ -81,10 +81,8 @@ public class RGTeleOp extends OpMode {
 
         if (holdMode) {
             ManualDrive.driveOrHold(follower, powers);
-            telemetry.addData("holdMode", holdMode);
         } else {
             follower.manual(powers);
-            telemetry.addData("holdMode", holdMode);
         }
         follower.update();
 
@@ -133,6 +131,7 @@ public class RGTeleOp extends OpMode {
         if (gamepad2.bWasPressed()) {
             gus.shootersOff();
             gus.closeGates();
+            autoAim = !autoAim;
         }
 
         //Boolean Functions
@@ -180,12 +179,13 @@ public class RGTeleOp extends OpMode {
         dashboardTelemetry.update();
 
         //Driver Hub Telemetry
-        hiveTargeting.outputTelemetry(telemetry);
         telemetry.addLine("Driver Data:");
         telemetry.addData("Robot X", robotPose.x());
         telemetry.addData("Robot Y", robotPose.y());
         telemetry.addData("Robot Heading", Math.toDegrees(robotPose.heading()));
         telemetry.addData("Target Heading", targetHeading);
+        telemetry.addData("holdMode", holdMode);
+        hiveTargeting.outputTelemetry(telemetry);
         telemetry.addLine(" ");
         telemetry.addLine("Operator Data:");
         telemetry.addData("Pollen Velocity", gus.getPollenVelocity());

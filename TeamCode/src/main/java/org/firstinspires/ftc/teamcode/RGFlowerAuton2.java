@@ -25,11 +25,11 @@ public class RGFlowerAuton2 extends OpMode {
     private GusBot gus;
     private final PoseFactory p = PoseFactory.degrees();
 
-    private final Pose startPose = p.of(61, 135, 90);
-    private final Pose flowerShootPose = p.of(53, 131.5, 91);
+    private final Pose startPose = p.of(59, 135, 90);
+    private final Pose flowerShootPose = p.of(53, 134, 91);
     private final Pose flowerShootControlPose = p.of(59, 115, 0);
     private final Pose parkControlPose = p.of(60, 97, 0);
-    private final Pose parkPose = p.of(11, 124, 0);
+    private final Pose parkPose = p.of(9, 124, 0);
     private Path Flower() {
         return curve(startPose, flowerShootControlPose, flowerShootPose).linear(startPose, flowerShootPose);
     }
@@ -54,12 +54,14 @@ public class RGFlowerAuton2 extends OpMode {
     private Command autoRoutine() {
         return sequential(
                 shootPrep,
-                race(follow(follower, Flower()),
-                        waitMs(2000)),
-                waitMs(8000),
+                waitMs(10000),
                 shoot,
                 instant(() -> {gus.intake();}),
+                race(follow(follower, Flower()),
+                        waitMs(2000)),
                 waitMs(3000),
+                race(follow(follower, Flower()),
+                        waitMs(2000)),
                 shootPrep,
                 instant(() -> {gus.shoot();}),
                 waitMs(2000),
