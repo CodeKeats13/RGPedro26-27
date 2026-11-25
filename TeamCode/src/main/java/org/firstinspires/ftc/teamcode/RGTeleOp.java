@@ -10,6 +10,7 @@ import com.pedropathing.follower.ManualDrive;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.seattlesolvers.solverslib.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -28,6 +29,7 @@ public class RGTeleOp extends OpMode {
     private final PIDController headingController = new PIDController(2.0, 0.0, 0.1);
     private HiveTargeting hiveTargeting;
     private double targetHeading;
+    private ElapsedTime blockerRunTime = new ElapsedTime();
 
     @Override
     public void init() {
@@ -38,6 +40,7 @@ public class RGTeleOp extends OpMode {
         holdMode = true;
         autoAim = false;
         hiveTargeting = new HiveTargeting();
+        blockerRunTime.reset();
         telemetry.addLine("Init Complete. Good Luck Drivers!!");
         telemetry.update();
     }
@@ -86,10 +89,6 @@ public class RGTeleOp extends OpMode {
         }
         follower.update();
 
-        telemetry.addData("Robot X", robotPose.x());
-        telemetry.addData("Robot Y", robotPose.y());
-        telemetry.addData("Robot Heading", Math.toDegrees(robotPose.heading()));
-
 
         //GamePad 1
 
@@ -135,7 +134,16 @@ public class RGTeleOp extends OpMode {
         if (gamepad2.bWasPressed()) {
             gus.shootersOff();
             gus.closeGates();
-            autoAim = !autoAim;
+            autoAim = false;
+        }
+
+        //Blocker
+        if (gamepad2.yWasPressed()) {
+            gus.blockerUp();
+        }
+
+        if (gamepad2.xWasPressed()) {
+            gus.blockerDown();
         }
 
         //Shooter Gates

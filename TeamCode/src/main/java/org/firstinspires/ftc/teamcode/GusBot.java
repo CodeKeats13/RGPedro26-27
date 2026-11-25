@@ -102,6 +102,14 @@ public class GusBot {
         nectarGate.setPosition(NECTAR_GATE_CLOSED_POS);
     }
 
+    public void blockerUp() {
+        blocker.setPower(1);
+    }
+
+    public void blockerDown() {
+        blocker.setPower(-1);
+    }
+
     public void intake() {
         intakeTop.setPower(INTAKE_FORWARD_PWR);
         intakeBottom.setPower(INTAKE_FORWARD_PWR);
