@@ -40,7 +40,6 @@ public class RGTeleOp extends OpMode {
         holdMode = true;
         autoAim = false;
         hiveTargeting = new HiveTargeting();
-        blockerRunTime.reset();
         telemetry.addLine("Init Complete. Good Luck Drivers!!");
         telemetry.update();
     }
@@ -143,14 +142,16 @@ public class RGTeleOp extends OpMode {
         //Blocker
         if (gamepad2.yWasPressed()) {
             gus.blockerUp();
+            blockerRunTime.reset();
         }
 
         if (gamepad2.xWasPressed()) {
-            gus.blockerOff();
+            gus.blockerDown();
+            blockerRunTime.reset();
         }
 
-        if (gamepad2.dpadLeftWasPressed()) {
-            gus.blockerDown();
+        if (blockerRunTime.seconds() > GusBot.BLOCKER_POS_TIME) {
+            gus.blockerOff();
         }
 
         //Shooter Gates

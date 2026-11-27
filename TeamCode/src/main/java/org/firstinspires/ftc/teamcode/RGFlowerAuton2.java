@@ -26,7 +26,7 @@ public class RGFlowerAuton2 extends OpMode {
     private final PoseFactory p = PoseFactory.degrees();
 
     private final Pose startPose = p.of(59, 135, 90);
-    private final Pose flowerShootPose = p.of(53, 134, 91);
+    private final Pose flowerShootPose = p.of(53, 133, 91);
     private final Pose flowerShootControlPose = p.of(59, 115, 0);
     private final Pose parkControlPose = p.of(60, 97, 0);
     private final Pose parkPose = p.of(9, 124, 0);

@@ -25,6 +25,7 @@ public class GusBot {
     public static double POLLEN_F = 13;
     public static double NECTAR_P = 200;
     public static double NECTAR_F = 10;
+    public static double BLOCKER_POS_TIME = 10;
 
 
     private DcMotor intakeTop;
