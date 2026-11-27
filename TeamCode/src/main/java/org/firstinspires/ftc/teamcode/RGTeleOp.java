@@ -68,15 +68,18 @@ public class RGTeleOp extends OpMode {
 
 
         if (autoAim) {
+            //Hive Targeting Function
             targetHeading = hiveTargeting.calculateAngleToClosestTarget(robotPose) + Math.PI;
 
+            //Hive Targeting Joystick Driving Function
             if (Math.hypot(gamepad1.right_stick_x, gamepad1.right_stick_y) > 0.4) {
                 targetHeading = Math.atan2(-gamepad1.right_stick_x, -gamepad1.right_stick_y);
             }
+            //Hive Targeting Driving
             powers = ManualDrive.headingLock(follower, headingController, powers, targetHeading);
 
         }
-
+        //Normal driving
         powers = ManualDrive.fieldCentric(
                 powers,
                 follower.pose().heading()
@@ -143,6 +146,10 @@ public class RGTeleOp extends OpMode {
         }
 
         if (gamepad2.xWasPressed()) {
+            gus.blockerOff();
+        }
+
+        if (gamepad2.dpadLeftWasPressed()) {
             gus.blockerDown();
         }
 
